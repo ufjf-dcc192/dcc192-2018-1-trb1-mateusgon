@@ -1,6 +1,7 @@
 package br.ufjf.dcc192;
 
 import java.io.IOException;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,9 +19,9 @@ public class ControladorServlet extends HttpServlet {
        }
     }
 
-    private void listarInicio(HttpServletRequest request, HttpServletResponse response) throws IOException
+    private void listarInicio(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
     {
-        response.setContentType("text/html;charset=UTF-8");
-        response.sendRedirect("controlador-liistar.hmtl");
+        RequestDispatcher despachante = request.getRequestDispatcher("/WEB-INF/controlador-listar.jsp");
+        despachante.forward(request, response);
     }
 }

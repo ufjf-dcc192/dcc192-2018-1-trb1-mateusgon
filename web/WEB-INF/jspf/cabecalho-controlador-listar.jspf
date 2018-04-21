@@ -1,0 +1,12 @@
+<%@page contentType="text/hmtl" pageEncoding="UTF-8"%>
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <title>JSP Page</title>
+    </head>
+    <body>
+
+<h2>Hello World!</h2>
