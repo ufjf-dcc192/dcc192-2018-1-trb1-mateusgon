@@ -5,10 +5,6 @@ import java.util.List;
 
 public class ListaDeItens {
     private static ArrayList<Item> itens;
-
-    public ListaDeItens() throws IOException {
-        itens = new ArrayList<Item>();
-    }
     
     public static List<Item> getInstance()
     {

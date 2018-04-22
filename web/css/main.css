@@ -12,24 +12,27 @@ menu{
     color: white;
     text-decoration: none;
     list-style: none;
-    padding: 0.3cm;
+    padding: 5.0cm;
     margin: 0;
     position: relative;
 }
 
 menu li{
     display: inline-block;
-    width: 50px;
+    width: 750px;
+    padding: 5.0cm;
     text-align: center;
 }
 
 menu a{
-    widht: 50px;
+    display: inline-block;
+    widht: 750px;
     color: white;
     text-decoration: none;
     font-family: sans-serif;
     font-weight: bold;
     color: orange;
+    padding: 5.0cm;
 }
 
 ul {
@@ -47,7 +50,7 @@ h1 {
 }
 
 aside {
-    widht: 50px;
+    widht: 750px;
     color: white;
     text-decoration: none;
     font-family: sans-serif;

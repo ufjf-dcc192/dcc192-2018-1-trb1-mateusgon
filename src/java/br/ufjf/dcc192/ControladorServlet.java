@@ -42,6 +42,8 @@ public class ControladorServlet extends HttpServlet {
     }
 
     private void controlarMesas(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<Mesas> mesas = ListaDeMesas.getInstance();
+        request.setAttribute("mesas", mesas);
         RequestDispatcher despachante = request.getRequestDispatcher("/WEB-INF/controlador-mesas.jsp");
         despachante.forward(request, response);
     }
