@@ -5,17 +5,26 @@
         <h1> Mesas </h1>
         <ul>
             <c:forEach items="${mesas}" var="mesas" varStatus="numero">
+                    
                     <li> ${mesas} </li>
                     <a href="ver-pedidos.html?codigo=${numero.count}"> Ver pedidos </a>
                     //
                     <a href="fazer-pedido.html?codigo=${numero.count}"> Fazer pedido </a>
-                    //
-                    <a href="fechar-pedido.html?codigo=${numero.count}"> Fechar pedido em aberto </a>
-                    //
-                    <a href="remover-mesa.html?codigo=${numero.count}"> Remover mesa </a>
+                    <form method="post"> <input type="submit" value="Fechar pedido em aberto"/> 
+                    <input type="hidden" value="${numero.count}" name="operacaoFecharPedido"/>
+                    </form>
+                    <form method="post"> <input type="submit" value="Remover mesa"/> 
+                    <input type="hidden" value="${numero.count}" name="operacaoRemoverMesa"/>
+                    </form>
+                    
             </c:forEach>
         </ul>
-        <p> <a href="adicionar-mesa.html"> Adicionar uma mesa </a> </p>
+        <p> 
+            <form method="post">
+            Adicionar Mesa:  
+            <input type="submit" value="Clique aqui"/>
+            </form> 
+        </p>
         <p> Total Faturado:  </p>
         
 <%@include file="jspf/rodape-controlador-mesas.jspf"%>

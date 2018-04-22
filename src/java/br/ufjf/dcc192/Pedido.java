@@ -86,6 +86,11 @@ public class Pedido {
         this.valor = valor;
     }
 
+    public boolean getStatusAberto()
+    {
+        return statusAberto;
+    }
+    
     @Override
     public String toString() {
         String resultado = String.format("%.2f", this.valor);

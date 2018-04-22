@@ -1,5 +1,5 @@
 html{
-    width: 700px;
+    width: 750px;
     margin: auto;
 }
 
@@ -9,52 +9,28 @@ header, footer {
 
 menu{
     background-color: green;
-    color: white;
+    color: green;
     text-decoration: none;
     list-style: none;
-    padding: 5.0cm;
+    padding: 0.3cm;
     margin: 0;
     position: relative;
 }
 
 menu li{
     display: inline-block;
-    width: 750px;
-    padding: 5.0cm;
+    width: 50px;
     text-align: center;
 }
 
 menu a{
-    display: inline-block;
-    widht: 750px;
-    color: white;
-    text-decoration: none;
-    font-family: sans-serif;
-    font-weight: bold;
+    widht: 150px;
     color: orange;
-    padding: 5.0cm;
-}
-
-ul {
     text-decoration: none;
     font-family: sans-serif;
     font-weight: bold;
-    color: orange;    
-}
-
-h1 {
-    text-decoration: none;
-    font-family: sans-serif;
-    font-weight: bold;
-    color: green;
 }
 
 aside {
-    widht: 750px;
-    color: white;
-    text-decoration: none;
-    font-family: sans-serif;
-    font-weight: bold;
-    color: green;
-    background: orange;
+    background-color: orange;
 }
