@@ -13,6 +13,14 @@ public class Pedido {
     private String fechado;
     private Double valor;
 
+    public Pedido(String nome, Integer numero, boolean statusAberto, String aberto) {
+        this.nome = nome;
+        this.numero = numero;
+        this.statusAberto = statusAberto;
+        this.aberto = aberto;
+        this.fechado = "Pedido está aberto";
+        this.valor = 0.0;
+    }
     
     public String getNome() {
         return nome;
@@ -54,7 +62,7 @@ public class Pedido {
         this.fechado = fechado;
     }
 
-    public Double getValor() {
+   /* public Double getValor() {
         Double valor = 0.0;
         for (ItemDoPedido idp : itemDoPedido)
         {
@@ -62,8 +70,13 @@ public class Pedido {
         }
         this.valor = valor;
         return valor;
-    }
+    } */
 
+    public Double getValor()
+    {
+        return this.valor;
+    }
+    
     public void setValor(Double valor) {
         this.valor = valor;
     }
@@ -73,14 +86,21 @@ public class Pedido {
         return statusAberto;
     }
     
-    @Override
+    /*@Override
     public String toString() {
         String resultado = String.format("%.2f", this.valor);
         if (isStatusAberto())
             return this.nome + " - R$" + resultado + " - Aberto: " + this.aberto + " - Status: Aberto";
         else
             return this.nome + " - R$" + resultado + " - Fechado: " + this.fechado + " - Status: Fechado";
+    }*/
+
+    @Override
+    public String toString() {
+        return this.nome; //To change body of generated methods, choose Tools | Templates.
     }
+    
+    
 
     public Integer getNumero() {
         return numero;

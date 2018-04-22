@@ -1,6 +1,9 @@
 package br.ufjf.dcc192;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class Mesas {
@@ -15,6 +18,12 @@ public class Mesas {
         this.nome = nome;
         this.numero = numero;
         this.pedidos = new ArrayList<>();
+        Calendar c = Calendar.getInstance();
+        Date data = c.getTime();
+        SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");     
+        String str = fmt.format(data);            
+        Pedido p = new Pedido("Pedido 0", 0, true, str);
+        pedidos.add(p);
     }
 
     public String getNome() {

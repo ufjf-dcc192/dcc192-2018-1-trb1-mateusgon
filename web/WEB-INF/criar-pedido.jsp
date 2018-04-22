@@ -8,11 +8,21 @@
         <h1> Pedido </h1>
         <table>
             <c:forEach items="${itens}" var="itens" varStatus="numero">
-                <tr> <td> ${itens} </td> 
-                <td> <label>  <input name="quantidade ${numero.count}" /> </label>  </td> </tr>
+                <tr> 
+                    <td> 
+                        ${itens} 
+                    </td> 
+                    <td>
+                        <form method="post">
+                            <label>  
+                                <input type="text" rows="1" name="operacaoRegistrarItem${numero.count}"/>
+                            </label>
+                        </form>
+                    </td>
+                </tr>
             </c:forEach>
         </table>        
-        <form method="post"> <input type="submit" value="Registrar Itens"/> 
-        <input type="hidden" value="<%=codigo%>" name="operacaoRegistrarItem"/> </form>
+         <form method="post"> <input type="submit" value="Adicionar ao pedido"/>
+             <input type="hidden" value="<%=codigo%>" name="operacaoRegistrarItem"/> </form>
         
 <%@include file="jspf/rodape-criar-pedido.jspf"%>
