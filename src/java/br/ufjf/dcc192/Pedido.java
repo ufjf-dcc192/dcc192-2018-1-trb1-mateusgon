@@ -13,24 +13,6 @@ public class Pedido {
     private String fechado;
     private Double valor;
 
-    public Pedido(String nome, Integer numero) {
-        this.nome = nome;
-        this.numero = numero;
-    }
-
-    public Pedido(String nome, Integer numero, boolean statusAberto, String aberto, String fechado, Double valor) {
-        this.nome = nome;
-        this.numero = numero;
-        this.statusAberto = statusAberto;
-        this.aberto = aberto;
-        this.fechado = fechado;
-        this.valor = valor;
-    }
-    
-    public Pedido ()
-    {
-        itemDoPedido = new ArrayList<ItemDoPedido>();
-    }
     
     public String getNome() {
         return nome;

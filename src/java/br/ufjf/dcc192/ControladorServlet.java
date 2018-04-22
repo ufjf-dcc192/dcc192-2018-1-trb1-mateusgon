@@ -16,7 +16,7 @@ public class ControladorServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (request.getParameter("operacaoFecharPedido") == null && request.getParameter("operacaoRemoverMesa") == null)
+        if (request.getParameter("operacaoAdicionarMesa") != null)
         {            
             response.setContentType("text/html;charset=UTF-8");
             int numMesa;
@@ -34,21 +34,35 @@ public class ControladorServlet extends HttpServlet {
             mesas.add(mesa);
             response.sendRedirect("funcionamento-mesas.html");
         }
-        else if (request.getParameter("operacaoFecharPedido") == null)
+        else if (request.getParameter("operacaoRemoverMesa") != null)
         {
             response.setContentType("text/html;charset=UTF-8");
-            int codigo = Integer.parseInt(request.getParameter("operacao"));
-            System.out.println(codigo);
+            int codigo = Integer.parseInt(request.getParameter("operacaoRemoverMesa"));
             codigo--;
             List<Mesas> mesas = ListaDeMesas.getInstance();
             mesas.remove(codigo);
             response.sendRedirect("funcionamento-mesas.html");
         }
-        else if (request.getParameter("operacaoRemoverMesa") == null)
+        else if (request.getParameter("operacaoFecharPedido") != null)
         {
             
         }
-    
+        else if (request.getParameter("operacaoRegistrarItem") != null)
+        {
+            response.setContentType("text/html;charset=UTF-8");
+            List<Item> itens = ListaDeItens.getInstance();
+            Integer [] pedidos = new Integer[itens.size()];
+            int codigoMesa = Integer.parseInt(request.getParameter("operacaoRegistrarItem"));
+            for (int i = 1; i <= itens.size(); i++)
+            {
+                if (request.getParameter("quantidade "+i) != null)
+                {
+                    pedidos[i-1] = Integer.parseInt(request.getParameter("quantidade "+i));
+                    System.out.println("q");
+                }
+            }    
+            response.sendRedirect("funcionamento-mesas.html");
+        }
     }
 
     
@@ -110,24 +124,11 @@ public class ControladorServlet extends HttpServlet {
     private void fazerPedido(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int codigo = Integer.parseInt(request.getParameter("codigo"));
         codigo--;
-        List<Mesas> mesas = ListaDeMesas.getInstance();
-        List<Pedido> pedidos = mesas.get(codigo).getPedidos();
-        if (pedidos == null)
-        {
-            RequestDispatcher despachante = request.getRequestDispatcher("/WEB-INF/ver-pedidos.jsp");
-            despachante.forward(request, response);
-        }
-        else
-        {
-            for (Pedido pedido : pedidos) {
-                if (pedido.getStatusAberto() == true)
-                {
-                    request.setAttribute("pedido", pedido);
-                }
-            }
-            RequestDispatcher despachante = request.getRequestDispatcher("/WEB-INF/ver-pedidos.jsp");
-            despachante.forward(request, response);
-        }
+        List<Item> itens = ListaDeItens.getInstance();
+        request.setAttribute("itens", itens);
+        request.setAttribute("codigo", codigo);
+        RequestDispatcher despachante = request.getRequestDispatcher("/WEB-INF/criar-pedido.jsp");
+        despachante.forward(request, response);;
     }
     
 

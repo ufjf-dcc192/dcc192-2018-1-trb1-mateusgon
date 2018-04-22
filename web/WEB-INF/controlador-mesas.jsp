@@ -23,6 +23,7 @@
             <form method="post">
             Adicionar Mesa:  
             <input type="submit" value="Clique aqui"/>
+            <input type="hidden" value="${numero.count}" name="operacaoAdicionarMesa"/>
             </form> 
         </p>
         <p> Total Faturado:  </p>
