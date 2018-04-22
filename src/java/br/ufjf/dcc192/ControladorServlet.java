@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "Controlador", urlPatterns = {"/controlador.html", "/funcionamento-mesas.html", "/controle-item.html",
-"/ver-pedidos.html", "/fazer-pedido.html", "/itemdopedido.html"})
+"/ver-pedidos.html", "/fazer-pedido.html", "/itemdopedido.html", "/adicionaritemdopedido.html"})
 public class ControladorServlet extends HttpServlet {
 
     @Override
@@ -119,6 +119,10 @@ public class ControladorServlet extends HttpServlet {
        {
            verItemDoPedido(request, response);
        }
+       else if("/adicionaritemdopedido.html".equals(request.getServletPath()))
+       {
+           adicionarItemDoPedido(request, response);
+       }
     }
 
     private void listarInicio(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
@@ -159,10 +163,19 @@ public class ControladorServlet extends HttpServlet {
        List<Mesas> mesas = ListaDeMesas.getInstance();
        List<Pedido> pedidos = mesas.get(numMesa).getPedidos();
        List<ItemDoPedido> idp = pedidos.get(numPedido).getItemDoPedido();
-       request.setAttribute("numMEsa", numMesa);
+       request.setAttribute("numMesa", numMesa);
        request.setAttribute("numPedido", numPedido);
        request.setAttribute("idp", idp);
        RequestDispatcher despachante = request.getRequestDispatcher("/WEB-INF/ver-item-do-pedido.jsp");
        despachante.forward(request, response);
+    }
+
+    private void adicionarItemDoPedido(HttpServletRequest request, HttpServletResponse response) {
+        int numPedido = Integer.parseInt(request.getParameter("codigo"));
+        int numMesa = Integer.parseInt(request.getParameter("codigo2"));
+        request.setAttribute("numMesa", numMesa);
+        request.setAttribute("numPedido", numPedido);
+        List<Item> itens = ListaDeItens.getInstance();
+        request.setAttribute("itens", itens);
     }
 }
