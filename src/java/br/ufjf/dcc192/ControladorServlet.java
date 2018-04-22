@@ -15,7 +15,15 @@ public class ControladorServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
        if ("/controlador.html".equals(request.getServletPath()))
        {
-           listarInicio(request, response);
+           listarInicio(request, response);           
+       }
+       else if("/controle-item.html".equals(request.getServletPath()))
+       {
+           
+       }
+       else if("/funcionamento-pedido.html".equals(request.getServletPath()))
+       {
+           
        }
     }
 
