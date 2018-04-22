@@ -2,7 +2,11 @@
 <%@include file ="jspf/cabecalho-controlador-listar.jspf"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-        <p> <a href="controle-item.html"> Administração de Itens </a> </p>
-        <p> <a href="funcionamento-pedido.html"> Administração do Funcionamento dos Pedidos </a> </p>
+        <h1> Cardápio </h1>
+        <ul>
+            <c:forEach items="${itens}" var="itens">
+                    <li> ${itens} </li>
+            </c:forEach>
+        </ul>
             
 <%@include file="jspf/rodape-controlador-listar.jspf"%>

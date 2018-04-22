@@ -1,7 +1,7 @@
 package br.ufjf.dcc192;
 
 public class Item {
-     private String nome;
+    private String nome;
     private String tipoItem;
     private Double valor;
     

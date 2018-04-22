@@ -3,7 +3,19 @@
     <head>
         <meta charset="UTF-8"/>
         <title> Funcionamento </title>
+        <link rel="stylesheet" href="css/main.css" />
     </head>
     <body>
+        
 
-<h2>Pizzaria Petini - Funcionamento</h2>
+
+<aside>
+    <h2>Pizzaria Petini - Funcionamento</h2>
+    <menu>
+        <li> <a href="index.html"> Home </a> </li>
+        <li> <a href="controle-item.html"> Itens </a> </li>
+        <li> <a href="funcionamento-mesas.html"> Mesas </a> </li>
+    </menu>
+    
+</aside>        
+
