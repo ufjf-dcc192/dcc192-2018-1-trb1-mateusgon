@@ -27,8 +27,6 @@ public class Pedido {
         this.valor = valor;
     }
     
-    
-
     public Pedido ()
     {
         itemDoPedido = new ArrayList<ItemDoPedido>();

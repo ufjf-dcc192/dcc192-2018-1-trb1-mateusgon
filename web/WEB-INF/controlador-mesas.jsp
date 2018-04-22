@@ -10,11 +10,12 @@
                     //
                     <a href="fazer-pedido.html?codigo=${numero.count}"> Fazer pedido </a>
                     //
-                    <a href="fechar-pedido.html?codigo=${numero.count}"> Fechar conta </a>
+                    <a href="fechar-pedido.html?codigo=${numero.count}"> Fechar pedido em aberto </a>
                     //
                     <a href="remover-mesa.html?codigo=${numero.count}"> Remover mesa </a>
             </c:forEach>
         </ul>
         <p> <a href="adicionar-mesa.html"> Adicionar uma mesa </a> </p>
-        <p> <a href="total-faturado.html"> Total Faturado </a> </p>    
+        <p> Total Faturado:  </p>
+        
 <%@include file="jspf/rodape-controlador-mesas.jspf"%>

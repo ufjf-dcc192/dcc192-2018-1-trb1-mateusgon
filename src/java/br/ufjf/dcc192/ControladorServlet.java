@@ -9,7 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "Controlador", urlPatterns = {"/controlador.html", "/funcionamento-mesas.html", "/controle-item.html"})
+@WebServlet(name = "Controlador", urlPatterns = {"/controlador.html", "/funcionamento-mesas.html", "/controle-item.html",
+"/ver-pedidos.html", "/fazer-pedido.html", "/remover-mesa.html", "/adicionar-mesa.html"})
 public class ControladorServlet extends HttpServlet {
 
     @Override
@@ -25,6 +26,10 @@ public class ControladorServlet extends HttpServlet {
        else if("/funcionamento-mesas.html".equals(request.getServletPath()))
        {
            controlarMesas(request, response);
+       }
+       else if("/ver-pedidos.html".equals(request.getServletPath()))
+       {
+           verPedidos(request, response);
        }
     }
 
@@ -45,6 +50,16 @@ public class ControladorServlet extends HttpServlet {
         List<Mesas> mesas = ListaDeMesas.getInstance();
         request.setAttribute("mesas", mesas);
         RequestDispatcher despachante = request.getRequestDispatcher("/WEB-INF/controlador-mesas.jsp");
+        despachante.forward(request, response);
+    }
+
+    private void verPedidos(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int codigo = Integer.parseInt(request.getParameter("codigo"));
+        codigo--;
+        List<Mesas> mesas = ListaDeMesas.getInstance();
+        List<Pedido> pedidos = mesas.get(codigo).getPedidos();
+        request.setAttribute("pedidos", pedidos);
+        RequestDispatcher despachante = request.getRequestDispatcher("/WEB-INF/ver-pedidos.jsp");
         despachante.forward(request, response);
     }
 }
