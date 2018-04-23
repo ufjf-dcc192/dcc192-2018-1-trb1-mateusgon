@@ -29,6 +29,6 @@
             <input type="hidden" value="${numero.count}" name="operacaoAdicionarMesa"/>
             </form> 
         </p>
-        <p> Total Faturado:  </p>
+        <p> Total Faturado: R$${valor}  </p>
         
 <%@include file="jspf/rodape-controlador-mesas.jspf"%>

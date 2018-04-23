@@ -23,10 +23,7 @@
                         <td> ${pedidos.fechado}</td>
                         <td> R$${pedidos.valor}</td>
                         <td> 
-                            <form method="post"> 
-                                <input type="submit" value="Fechar pedido"/> 
-                                <input type="hidden" value="<%=codigo%>" name="operacaoFecharPedido"/>
-                            </form>
+                            <a href="fecharpedido.html?codigo=${numero.count}"> Fechar Pedido </a>                            
                         </td>
                         <td>  <a href="itemdopedido.html?codigo=${numero.count}&codigo2=<%=codigo%>"> Ver itens </a> </td>
                     </tr>    

@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "Controlador", urlPatterns = {"/controlador.html", "/funcionamento-mesas.html",
+@WebServlet(name = "Controlador", urlPatterns = {"/controlador.html", "/funcionamento-mesas.html", "/fecharpedido.html",
 "/ver-pedidos.html", "/fazer-pedido.html", "/itemdopedido.html", "/adicionaritemdopedido.html", "/cardapio.html"})
 public class ControladorServlet extends HttpServlet {
 
@@ -38,31 +38,23 @@ public class ControladorServlet extends HttpServlet {
         }
         else if (request.getParameter("operacaoRemoverMesa") != null)
         {
+            Boolean exclusaoLiberada = false;
             response.setContentType("text/html;charset=UTF-8");
             int codigo = Integer.parseInt(request.getParameter("operacaoRemoverMesa"));
             codigo--;
             List<Mesas> mesas = ListaDeMesas.getInstance();
-            mesas.remove(codigo);
-            response.sendRedirect("funcionamento-mesas.html");
-        }
-        else if (request.getParameter("operacaoFecharPedido") != null)
-        {
-            int codigoMesa = Integer.parseInt(request.getParameter("operacaoFecharPedido"));
-            response.setContentType("text/html;charset=UTF-8");
-            List<Mesas> mesas = ListaDeMesas.getInstance();
-            List<Pedido> pedidos = mesas.get(codigoMesa).getPedidos();
-            for (Pedido pedido : pedidos) {
-                if (pedido.getStatusAberto())
-                {
-                    pedido.setStatusAberto(false);
-                    Calendar c = Calendar.getInstance();
-                    Date data = c.getTime();
-                    SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");     
-                    String str = fmt.format(data); 
-                    pedido.setFechado(str);
-                }
+            List<Pedido> pedidos = mesas.get(codigo).getPedidos();
+            Integer tamanho = pedidos.size();
+            tamanho--;
+            if (pedidos.get(tamanho).getStatusAberto())
+            {
+                response.sendRedirect("funcionamento-mesas.html");
             }
-            response.sendRedirect("funcionamento-mesas.html");
+            else
+            {
+                mesas.remove(codigo);
+                response.sendRedirect("funcionamento-mesas.html");
+            }            
         }
         else if(request.getParameter("operacaoAdicionarPedido") != null)
         {
@@ -133,6 +125,10 @@ public class ControladorServlet extends HttpServlet {
        {
            listarInicio(request, response);
        }
+       else if("/fecharpedido.html".equals(request.getServletPath()))
+       {
+           fecharPedido(request, response);  
+       }
     }
 
     private void listarInicio(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
@@ -146,6 +142,8 @@ public class ControladorServlet extends HttpServlet {
     private void controlarMesas(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Mesas> mesas = ListaDeMesas.getInstance();
         request.setAttribute("mesas", mesas);
+        Double valor = calcularRendimento(mesas);
+        request.setAttribute("valor", valor);
         RequestDispatcher despachante = request.getRequestDispatcher("/WEB-INF/controlador-mesas.jsp");
         despachante.forward(request, response);
     }
@@ -183,6 +181,43 @@ public class ControladorServlet extends HttpServlet {
         List<Item> itens = ListaDeItens.getInstance();
         request.setAttribute("itens", itens);
         RequestDispatcher despachante = request.getRequestDispatcher("/WEB-INF/adicionar-item-ao-pedido.jsp");
+        despachante.forward(request, response);
+    }
+
+    private Double calcularRendimento(List<Mesas> mesas) {
+        Double valor = 0.0;
+        for (Mesas mesa : mesas) {
+            for (Pedido pedido: mesa.getPedidos())
+            {
+                valor = valor + pedido.getValor();
+            }
+        }
+        return valor;
+    }
+
+    private void fecharPedido(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int codigoMesa = Integer.parseInt(request.getParameter("codigo"));
+        int contador;
+        codigoMesa--;
+        response.setContentType("text/html;charset=UTF-8");
+        List<Mesas> mesas = ListaDeMesas.getInstance();
+        List<Pedido> pedidos = mesas.get(codigoMesa).getPedidos();
+        for (Pedido pedido : pedidos) {
+            if (pedido.getStatusAberto())
+            {
+                    pedido.setStatusAberto(false);
+                    Calendar c = Calendar.getInstance();
+                    Date data = c.getTime();
+                    SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");     
+                    String str = fmt.format(data); 
+                    pedido.setFechado(str);
+            }
+        }
+        contador = pedidos.size();
+        contador--;
+        List<ItemDoPedido> idp = pedidos.get(contador).getItemDoPedido();
+        request.setAttribute("idp", idp);
+        RequestDispatcher despachante = request.getRequestDispatcher("/WEB-INF/listar-pedido-fechado.jsp");
         despachante.forward(request, response);
     }
 
