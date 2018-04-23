@@ -20,7 +20,7 @@
                         <td> ${idp.item.nome} </td> 
                         <td> ${idp.quantidade}</td>
                         <td> R$${idp.quantidade * idp.item.valor}</td>
-                        <td> <a href="editaritemdopedido.html?codigo=<%=numPedido%>&codigo2=<%=numMesa%>"> Excluir item do pedido </a> </td>
+                        <td> <a href="removeritemdopedido.html?codigo=<%=numPedido%>&codigo2=<%=numMesa%>"> Excluir item do pedido </a> </td>
                         <td> <a href="alteraritemdopedido.html?codigo=<%=numPedido%>&codigo2=<%=numMesa%>"> Editar item do pedido </a> </td>
                     </tr>    
             </c:forEach>

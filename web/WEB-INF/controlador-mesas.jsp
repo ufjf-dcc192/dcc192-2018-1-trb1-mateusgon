@@ -3,17 +3,25 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
         <h1> Mesas </h1>
-        <ul>
+        <table border="1px">
+            <tr>
+                <td> Mesas </td>
+                <td> Ver pedidos </td>
+                <td> Remover mesa </td>
+            </tr>
             <c:forEach items="${mesas}" var="mesas" varStatus="numero">
-                    
-                    <li> ${mesas} </li>
-                    <a href="ver-pedidos.html?codigo=${numero.count}"> Ver pedidos </a>
-                    <form method="post"> <input type="submit" value="Remover mesa"/> 
-                    <input type="hidden" value="${numero.count}" name="operacaoRemoverMesa"/>
-                    </form>
-                    
+            </tr>        
+                    <td> ${mesas} </td>
+                    <td> <a href="ver-pedidos.html?codigo=${numero.count}"> Ver pedidos </a> </td>
+                    <td> 
+                        <form method="post"> 
+                            <input type="submit" value="Remover mesa"/> 
+                            <input type="hidden" value="${numero.count}" name="operacaoRemoverMesa"/>
+                        </form> 
+                    </td>
+            </tr>         
             </c:forEach>
-        </ul>
+        </table>
         <p> 
             <form method="post">
             Adicionar Mesa:  

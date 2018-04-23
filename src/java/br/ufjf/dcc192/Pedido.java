@@ -20,6 +20,7 @@ public class Pedido {
         this.aberto = aberto;
         this.fechado = "Pedido está aberto";
         this.valor = 0.0;
+        itemDoPedido = new ArrayList<>();
     }
     
     public String getNome() {

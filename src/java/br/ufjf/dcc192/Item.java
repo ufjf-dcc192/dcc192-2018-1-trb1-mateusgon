@@ -1,6 +1,7 @@
 package br.ufjf.dcc192;
 
 public class Item {
+    private Integer id;
     private String nome;
     private String tipoItem;
     private Double valor;
@@ -9,7 +10,8 @@ public class Item {
     public Item() {
     }
 
-    public Item(String nome, String tipoItem, Double valor) {
+    public Item(Integer id, String nome, String tipoItem, Double valor) {
+        this.id = id;
         this.nome = nome;
         this.tipoItem = tipoItem;
         this.valor = valor;
@@ -44,4 +46,12 @@ public class Item {
     public void setTipoItem(String tipoItem) {
         this.tipoItem = tipoItem;
     }    
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 }

@@ -2,7 +2,6 @@ package br.ufjf.dcc192;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -13,8 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "Controlador", urlPatterns = {"/controlador.html", "/funcionamento-mesas.html", "/controle-item.html",
-"/ver-pedidos.html", "/fazer-pedido.html", "/itemdopedido.html", "/adicionaritemdopedido.html"})
+@WebServlet(name = "Controlador", urlPatterns = {"/controlador.html", "/funcionamento-mesas.html",
+"/ver-pedidos.html", "/fazer-pedido.html", "/itemdopedido.html", "/adicionaritemdopedido.html", "/cardapio.html"})
 public class ControladorServlet extends HttpServlet {
 
     @Override
@@ -93,19 +92,26 @@ public class ControladorServlet extends HttpServlet {
             response.sendRedirect("funcionamento-mesas.html");
             
         }
+        else if(request.getParameter("operacaoAdicionarItem") != null)
+        {
+           Integer numMesa = Integer.parseInt(request.getParameter("mesa"));
+           Integer numPedido = Integer.parseInt(request.getParameter("pedido"));
+           Integer idItem = Integer.parseInt(request.getParameter("itens"));
+           Integer qtdd = Integer.parseInt(request.getParameter("quantidade"));
+           Mesas m = ListaDeMesas.getInstance().get(numMesa);
+           Pedido p = m.getPedidos().get(numPedido);
+           Item i = ListaDeItens.getInstance().get(idItem);
+           ItemDoPedido idp = new ItemDoPedido(i, qtdd);
+           p.getItemDoPedido().add(idp);
+           response.sendRedirect("funcionamento-mesas.html");
+        }
 }
-
-    
-    
+ 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
        if ("/controlador.html".equals(request.getServletPath()))
        {
            listarInicio(request, response);           
-       }
-       else if("/controle-item.html".equals(request.getServletPath()))
-       {
-           controlarItem(request, response);
        }
        else if("/funcionamento-mesas.html".equals(request.getServletPath()))
        {
@@ -123,6 +129,10 @@ public class ControladorServlet extends HttpServlet {
        {
            adicionarItemDoPedido(request, response);
        }
+       else if("/cardapio.html".equals(request.getServletPath()))
+       {
+           listarInicio(request, response);
+       }
     }
 
     private void listarInicio(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
@@ -131,11 +141,6 @@ public class ControladorServlet extends HttpServlet {
         request.setAttribute("itens", itens);
         RequestDispatcher despachante = request.getRequestDispatcher("/WEB-INF/controlador-listar.jsp");
         despachante.forward(request, response);
-    }
-
-    private void controlarItem(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher despachante = request.getRequestDispatcher("/WEB-INF/controlador-item.jsp");
-        despachante.forward(request, response);   
     }
 
     private void controlarMesas(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -170,12 +175,15 @@ public class ControladorServlet extends HttpServlet {
        despachante.forward(request, response);
     }
 
-    private void adicionarItemDoPedido(HttpServletRequest request, HttpServletResponse response) {
+    private void adicionarItemDoPedido(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int numPedido = Integer.parseInt(request.getParameter("codigo"));
         int numMesa = Integer.parseInt(request.getParameter("codigo2"));
         request.setAttribute("numMesa", numMesa);
         request.setAttribute("numPedido", numPedido);
         List<Item> itens = ListaDeItens.getInstance();
         request.setAttribute("itens", itens);
+        RequestDispatcher despachante = request.getRequestDispatcher("/WEB-INF/adicionar-item-ao-pedido.jsp");
+        despachante.forward(request, response);
     }
+
 }
