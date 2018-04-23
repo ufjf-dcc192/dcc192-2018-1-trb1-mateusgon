@@ -92,9 +92,14 @@ public class ControladorServlet extends HttpServlet {
            Integer qtdd = Integer.parseInt(request.getParameter("quantidade"));
            Mesas m = ListaDeMesas.getInstance().get(numMesa);
            Pedido p = m.getPedidos().get(numPedido);
-           Item i = ListaDeItens.getInstance().get(idItem);
-           ItemDoPedido idp = new ItemDoPedido(i, qtdd);
-           p.getItemDoPedido().add(idp);
+           if (p.getStatusAberto())
+           {
+                Item i = ListaDeItens.getInstance().get(idItem);
+                ItemDoPedido idp = new ItemDoPedido(i, qtdd);
+                p.getItemDoPedido().add(idp);
+                Double valor = i.getValor() * qtdd + p.getValor();
+                p.setValor(valor);
+           }
            response.sendRedirect("funcionamento-mesas.html");
         }
 }
