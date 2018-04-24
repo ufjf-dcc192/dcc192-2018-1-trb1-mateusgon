@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8"/>
-        <title> Pedido </title>
+        <title> Itens disponíveis </title>
         <link rel="stylesheet" href="css/main.css" />
     </head>
     <body>
@@ -10,11 +10,10 @@
 
 
 <aside>
-    <h2>Pizzaria Petini - Criar pedido</h2>
+    <h2>Pizzaria Petini - Itens a serem adicionados</h2>
     <menu>
         <li> <a href="index.html"> Home </a> </li>
         <li> <a href="controlador.html"> Funcionamento </a> </li>
-        <li> <a href="controle-item.html"> Itens </a> </li>
         <li> <a href="funcionamento-mesas.html"> Mesas </a> </li>
         <li> <a href="cardapio.html"> Cardápio </a> </li>
     </menu>

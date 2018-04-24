@@ -2,10 +2,6 @@
 <%@include file ="jspf/cabecalho-ver-pedidos.jspf"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<% Integer codigo = (Integer)request.getAttribute("numMesa");
-   codigo--;
-%>
-
         <h1> Pedidos </h1>
             <table border="1px">  
                     <tr> 
@@ -16,24 +12,34 @@
                         <td> Opção 1 </td>
                         <td> Opção 2 </td>
                     </tr>
-            <c:forEach items="${pedidos}" var="pedidos" varStatus="numero">
+            <c:forEach items="${pedidos}" var="pedido" varStatus="numero">
                     <tr>
-                        <td> ${pedidos} </td> 
-                        <td> ${pedidos.aberto}</td>
-                        <td> ${pedidos.fechado}</td>
-                        <td> R$${pedidos.valor}</td>
-                        <td> 
-                            <a href="fecharpedido.html?codigo=${numero.count}"> Fechar Pedido </a>                            
-                        </td>
-                        <td>  <a href="itemdopedido.html?codigo=${numero.count}&codigo2=<%=codigo%>"> Ver itens </a> </td>
+                        <td> ${pedido} </td> 
+                        <td> ${pedido.aberto}</td>
+                        <td> ${pedido.fechado}</td>
+                        <td> R$${pedido.valor}</td>
+                        <c:choose>
+                                <c:when test="${pedido.statusAberto}">
+                                    <td> <a href="fecharpedido.html?codigo=${mesa.numero}"> Fechar Pedido </a> </td>
+                                    <td>  <a href="itemdopedido.html?codigo=${pedido.numero}&codigo2=${mesa.numero}"> Ver itens </a> </td>
+                                </c:when>
+                                <c:when test="${!pedido.statusAberto}">
+                                        <td> <a href="itemdopedido.html?codigo=${pedido.numero}&codigo2=${mesa.numero}"> Listar pedido </a> </td>
+                                        <td>  <a href="funcionamento-mesas.html"> Voltar </a> </td>
+                                </c:when>
+                        </c:choose>
                     </tr>    
             </c:forEach>
             </table>
         <p> 
-            <form method="post">  
-            <input type="submit" value="Adicione um novo pedido"/>
-            <input type="hidden" value="<%=codigo%>" name="operacaoAdicionarPedido"/>
-            </form> 
+            <c:choose>
+                <c:when test="${!ped.statusAberto}">
+                    <form method="post">  
+                    <input type="submit" value="Adicione um novo pedido"/>
+                    <input type="hidden" value="${mesa.numero}" name="operacaoAdicionarPedido"/>
+                    </form> 
+                </c:when>
+            </c:choose>
         </p>
                     
         

@@ -1,10 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@include file ="jspf/cabecalho-ver-item-do-pedido.jspf"%>
+<%@include file ="jspf/cabecalho-adicionar-item-ao-pedido.jspf"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<% Integer numMesa = (Integer)request.getAttribute("numMesa");
-   Integer numPedido = (Integer)request.getAttribute("numPedido");
-%>
         <h1> Itens </h1>
         <form method="post">    
             <p> Itens: </p>
@@ -23,4 +20,4 @@
                 <input type="submit" value="Adicionar"> </p>
         </form>            
         
-<%@include file="jspf/rodape-ver-item-do-pedido.jspf"%>
+<%@include file="jspf/rodape-adicionar-item-ao-pedido.jspf"%>

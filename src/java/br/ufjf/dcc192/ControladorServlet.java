@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "Controlador", urlPatterns = {"/controlador.html", "/funcionamento-mesas.html", "/fecharpedido.html",
-"/ver-pedidos.html", "/fazer-pedido.html", "/itemdopedido.html", "/adicionaritemdopedido.html", "/cardapio.html"})
+"/ver-pedidos.html", "/fazer-pedido.html", "/itemdopedido.html", "/adicionaritemdopedido.html", "/cardapio.html", "/erro.html"})
 public class ControladorServlet extends HttpServlet {
 
     @Override
@@ -48,7 +48,7 @@ public class ControladorServlet extends HttpServlet {
             tamanho--;
             if (pedidos.get(tamanho).getStatusAberto())
             {
-                response.sendRedirect("funcionamento-mesas.html");
+                response.sendRedirect("erro.html");
             }
             else
             {
@@ -61,18 +61,20 @@ public class ControladorServlet extends HttpServlet {
             response.setContentType("text/html;charset=UTF-8");
             boolean haMesa = false;
             int codigoMesa = Integer.parseInt(request.getParameter("operacaoAdicionarPedido"));
+            codigoMesa--;
             List<Mesas> mesas = ListaDeMesas.getInstance();
             List<Pedido> pedidos = mesas.get(codigoMesa).getPedidos();
             for (Pedido pedido : pedidos) {
                 if (pedido.getStatusAberto())
                 {
                     haMesa = true;
-                    response.sendRedirect("funcionamento-mesas.html");
                 }
             }
             if (!haMesa)
             {
-                Integer pAux = pedidos.get(pedidos.size()-1).getNumero();
+                Integer numP = pedidos.size();
+                numP--;
+                Integer pAux = pedidos.get(numP).getNumero();
                 pAux++;
                 Calendar c = Calendar.getInstance();
                 Date data = c.getTime();
@@ -90,6 +92,7 @@ public class ControladorServlet extends HttpServlet {
            Integer numPedido = Integer.parseInt(request.getParameter("pedido"));
            Integer idItem = Integer.parseInt(request.getParameter("itens"));
            Integer qtdd = Integer.parseInt(request.getParameter("quantidade"));
+           numMesa--;
            Mesas m = ListaDeMesas.getInstance().get(numMesa);
            Pedido p = m.getPedidos().get(numPedido);
            if (p.getStatusAberto())
@@ -134,6 +137,10 @@ public class ControladorServlet extends HttpServlet {
        {
            fecharPedido(request, response);  
        }
+       else if("/erro.html".equals(request.getServletPath()))
+       {
+           listarErro(request, response);
+       }
     }
 
     private void listarInicio(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
@@ -155,24 +162,32 @@ public class ControladorServlet extends HttpServlet {
 
     private void verPedidos(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int codigo = Integer.parseInt(request.getParameter("codigo"));
-        request.setAttribute("numMesa", codigo);
         codigo--;
         List<Mesas> mesas = ListaDeMesas.getInstance();
+        Mesas m = mesas.get(codigo);
+        request.setAttribute("mesa", m);
         List<Pedido> pedidos = mesas.get(codigo).getPedidos();
         request.setAttribute("pedidos", pedidos);
+        int tam;
+        tam = pedidos.size();
+        tam--;
+        Pedido p = pedidos.get(tam);
+        request.setAttribute("ped", p);
         RequestDispatcher despachante = request.getRequestDispatcher("/WEB-INF/ver-pedidos.jsp");
         despachante.forward(request, response);
     }
 
     private void verItemDoPedido(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
        int numPedido = Integer.parseInt(request.getParameter("codigo"));
-       numPedido--;
        int numMesa = Integer.parseInt(request.getParameter("codigo2"));
+       numMesa--;
        List<Mesas> mesas = ListaDeMesas.getInstance();
+       Mesas m = mesas.get(numMesa);
        List<Pedido> pedidos = mesas.get(numMesa).getPedidos();
+       Pedido p = pedidos.get(numPedido);
        List<ItemDoPedido> idp = pedidos.get(numPedido).getItemDoPedido();
-       request.setAttribute("numMesa", numMesa);
-       request.setAttribute("numPedido", numPedido);
+       request.setAttribute("mesa", m);
+       request.setAttribute("pedido", p);
        request.setAttribute("idp", idp);
        RequestDispatcher despachante = request.getRequestDispatcher("/WEB-INF/ver-item-do-pedido.jsp");
        despachante.forward(request, response);
@@ -184,7 +199,7 @@ public class ControladorServlet extends HttpServlet {
         request.setAttribute("numMesa", numMesa);
         request.setAttribute("numPedido", numPedido);
         List<Item> itens = ListaDeItens.getInstance();
-        request.setAttribute("itens", itens);
+        request.setAttribute("itens", itens); 
         RequestDispatcher despachante = request.getRequestDispatcher("/WEB-INF/adicionar-item-ao-pedido.jsp");
         despachante.forward(request, response);
     }
@@ -202,7 +217,6 @@ public class ControladorServlet extends HttpServlet {
 
     private void fecharPedido(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int codigoMesa = Integer.parseInt(request.getParameter("codigo"));
-        int contador;
         codigoMesa--;
         response.setContentType("text/html;charset=UTF-8");
         List<Mesas> mesas = ListaDeMesas.getInstance();
@@ -218,6 +232,7 @@ public class ControladorServlet extends HttpServlet {
                     pedido.setFechado(str);
             }
         }
+        int contador;
         contador = pedidos.size();
         contador--;
         List<ItemDoPedido> idp = pedidos.get(contador).getItemDoPedido();
@@ -226,4 +241,7 @@ public class ControladorServlet extends HttpServlet {
         despachante.forward(request, response);
     }
 
+    private void listarErro(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.sendError(404);
+    }
 }

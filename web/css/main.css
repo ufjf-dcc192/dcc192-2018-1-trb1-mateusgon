@@ -19,12 +19,12 @@ menu{
 
 menu li{
     display: inline-block;
-    width: 50px;
+    min-width: 150px;
     text-align: center;
 }
 
 menu a{
-    widht: 150px;
+    min-width: 150px;
     color: orange;
     text-decoration: none;
     font-family: sans-serif;

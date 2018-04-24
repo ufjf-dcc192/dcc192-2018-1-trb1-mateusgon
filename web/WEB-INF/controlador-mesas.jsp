@@ -12,11 +12,11 @@
             <c:forEach items="${mesas}" var="mesas" varStatus="numero">
             </tr>        
                     <td> ${mesas} </td>
-                    <td> <a href="ver-pedidos.html?codigo=${numero.count}"> Ver pedidos </a> </td>
+                    <td> <a href="ver-pedidos.html?codigo=${mesas.numero}"> Ver pedidos </a> </td>
                     <td> 
                         <form method="post"> 
                             <input type="submit" value="Remover mesa"/> 
-                            <input type="hidden" value="${numero.count}" name="operacaoRemoverMesa"/>
+                            <input type="hidden" value="${mesas.numero}" name="operacaoRemoverMesa"/>
                         </form> 
                     </td>
             </tr>         

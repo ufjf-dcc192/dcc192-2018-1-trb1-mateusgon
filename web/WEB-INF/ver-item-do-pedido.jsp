@@ -2,10 +2,6 @@
 <%@include file ="jspf/cabecalho-ver-item-do-pedido.jspf"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<% Integer numMesa = (Integer)request.getAttribute("numMesa");
-   Integer numPedido = (Integer)request.getAttribute("numPedido");
-%>
-
         <h1> Itens do pedido </h1>
             <table border="1px">  
                     <tr> 
@@ -20,13 +16,25 @@
                         <td> ${idp.item.nome} </td> 
                         <td> ${idp.quantidade}</td>
                         <td> R$${idp.quantidade * idp.item.valor}</td>
-                        <td> <a href="removeritemdopedido.html?codigo=<%=numPedido%>&codigo2=<%=numMesa%>"> Excluir item do pedido </a> </td>
-                        <td> <a href="alteraritemdopedido.html?codigo=<%=numPedido%>&codigo2=<%=numMesa%>"> Editar item do pedido </a> </td>
+                        <c:choose>
+                                <c:when test="${pedido.statusAberto}">
+                                    <td> <a href="removeritemdopedido.html?codigo=${pedido.numero}&codigo2=${mesa.numero}"> Excluir item do pedido </a> </td>
+                                    <td> <a href="alteraritemdopedido.html?codigo=${pedido.numero}&codigo2=${mesa.numero}"> Editar item do pedido </a> </td>
+                                </c:when>
+                                <c:when test="${!pedido.statusAberto}">
+                                        <td> Pedido fechado </td>
+                                        <td>  <a href="funcionamento-mesas.html"> Voltar </a> </td>
+                                </c:when>
+                        </c:choose>
                     </tr>    
             </c:forEach>
             </table>
         <p> 
-            <a href="adicionaritemdopedido.html?codigo=<%=numPedido%>&codigo2=<%=numMesa%>"> Adicionar Item ao Pedido </a>
+            <c:choose>
+                <c:when test="${pedido.statusAberto}">
+                    <a href="adicionaritemdopedido.html?codigo=${pedido.numero}&codigo2=${mesa.numero}"> Adicionar Item ao Pedido </a>
+                </c:when>
+            </c:choose>
         </p>            
         
 <%@include file="jspf/rodape-ver-item-do-pedido.jspf"%>
