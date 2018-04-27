@@ -2,6 +2,7 @@ package br.ufjf.dcc192;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -92,19 +93,69 @@ public class ControladorServlet extends HttpServlet {
            Integer numPedido = Integer.parseInt(request.getParameter("pedido"));
            Integer idItem = Integer.parseInt(request.getParameter("itens"));
            Integer qtdd = Integer.parseInt(request.getParameter("quantidade"));
-           numMesa--;
-           Mesas m = ListaDeMesas.getInstance().get(numMesa);
+           List<Mesas> mesas = ListaDeMesas.getInstance();
+           Mesas m = new Mesas();
+           for (Mesas mesa : mesas) {
+                if (mesa.getNumero() == numMesa)
+                {
+                    m = mesa;
+                }
+           }
            Pedido p = m.getPedidos().get(numPedido);
            if (p.getStatusAberto())
            {
+                Integer tam = p.getItemDoPedido().size();
                 Item i = ListaDeItens.getInstance().get(idItem);
-                ItemDoPedido idp = new ItemDoPedido(i, qtdd);
+                ItemDoPedido idp = new ItemDoPedido(tam, i, qtdd);
                 p.getItemDoPedido().add(idp);
                 Double valor = i.getValor() * qtdd + p.getValor();
                 p.setValor(valor);
            }
            response.sendRedirect("funcionamento-mesas.html");
         }
+        else if(request.getParameter("operacaoRemoverItemDoPedido") != null)
+        {
+            Integer numIDP = Integer.parseInt(request.getParameter("numIDP"));
+            Integer numMesa = Integer.parseInt(request.getParameter("numMesa"));
+            Integer numPedido = Integer.parseInt(request.getParameter("numPedido"));
+            List<Mesas> mesas = ListaDeMesas.getInstance();
+            Mesas m = new Mesas();
+            for (Mesas mesa : mesas) {
+                if (mesa.getNumero() == numMesa)
+                {
+                    m = mesa;
+                }
+            }
+            Pedido p = m.getPedidos().get(numPedido);
+            Double valor = p.getValor();
+            valor = valor - p.getItemDoPedido().get(numIDP).getItem().getValor() * p.getItemDoPedido().get(numIDP).getQuantidade();
+            p.setValor(valor);
+            List<ItemDoPedido> idp = p.getItemDoPedido();
+            List<ItemDoPedido> idpNovo = new ArrayList<>();
+            int cont=0;
+            int remover = 0;
+            for (ItemDoPedido itemDoPedido : idp) {
+                if (itemDoPedido.getId()!=numIDP)
+                {
+                    if (itemDoPedido.getId()>numIDP)
+                    {
+                        Integer id = itemDoPedido.getId();
+                        id--;
+                        itemDoPedido.setId(id);
+                    }
+                    idpNovo.add(itemDoPedido);
+                }
+                else
+                {
+                    remover = cont;
+                }
+                cont++;
+            }
+            idp.remove(remover);
+            p.setItemDoPedido(idpNovo);
+            response.sendRedirect("funcionamento-mesas.html");
+        }
+        
 }
  
     @Override
@@ -162,11 +213,16 @@ public class ControladorServlet extends HttpServlet {
 
     private void verPedidos(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int codigo = Integer.parseInt(request.getParameter("codigo"));
-        codigo--;
         List<Mesas> mesas = ListaDeMesas.getInstance();
-        Mesas m = mesas.get(codigo);
+        Mesas m = new Mesas();
+        for (Mesas mesa : mesas) {
+            if (mesa.getNumero() == codigo)
+            {
+                m = mesa;
+            }
+        }
         request.setAttribute("mesa", m);
-        List<Pedido> pedidos = mesas.get(codigo).getPedidos();
+        List<Pedido> pedidos = m.getPedidos();
         request.setAttribute("pedidos", pedidos);
         int tam;
         tam = pedidos.size();
@@ -180,10 +236,15 @@ public class ControladorServlet extends HttpServlet {
     private void verItemDoPedido(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
        int numPedido = Integer.parseInt(request.getParameter("codigo"));
        int numMesa = Integer.parseInt(request.getParameter("codigo2"));
-       numMesa--;
        List<Mesas> mesas = ListaDeMesas.getInstance();
-       Mesas m = mesas.get(numMesa);
-       List<Pedido> pedidos = mesas.get(numMesa).getPedidos();
+       Mesas m = new Mesas();
+       for (Mesas mesa : mesas) {
+            if (mesa.getNumero() == numMesa)
+            {
+                m = mesa;
+            }
+        }
+       List<Pedido> pedidos = m.getPedidos();
        Pedido p = pedidos.get(numPedido);
        List<ItemDoPedido> idp = pedidos.get(numPedido).getItemDoPedido();
        request.setAttribute("mesa", m);
@@ -217,10 +278,16 @@ public class ControladorServlet extends HttpServlet {
 
     private void fecharPedido(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int codigoMesa = Integer.parseInt(request.getParameter("codigo"));
-        codigoMesa--;
         response.setContentType("text/html;charset=UTF-8");
         List<Mesas> mesas = ListaDeMesas.getInstance();
-        List<Pedido> pedidos = mesas.get(codigoMesa).getPedidos();
+        Mesas m = new Mesas();
+        for (Mesas mesa : mesas) {
+             if (mesa.getNumero() == codigoMesa)
+             {
+                 m = mesa;
+             }
+        }
+        List<Pedido> pedidos = m.getPedidos();
         for (Pedido pedido : pedidos) {
             if (pedido.getStatusAberto())
             {
@@ -235,6 +302,8 @@ public class ControladorServlet extends HttpServlet {
         int contador;
         contador = pedidos.size();
         contador--;
+        Pedido p = m.getPedidos().get(contador);
+        request.setAttribute("pedido", p);
         List<ItemDoPedido> idp = pedidos.get(contador).getItemDoPedido();
         request.setAttribute("idp", idp);
         RequestDispatcher despachante = request.getRequestDispatcher("/WEB-INF/listar-pedido-fechado.jsp");
