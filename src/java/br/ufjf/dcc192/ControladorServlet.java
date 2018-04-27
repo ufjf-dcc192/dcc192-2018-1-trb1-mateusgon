@@ -42,9 +42,15 @@ public class ControladorServlet extends HttpServlet {
             Boolean exclusaoLiberada = false;
             response.setContentType("text/html;charset=UTF-8");
             int codigo = Integer.parseInt(request.getParameter("operacaoRemoverMesa"));
-            codigo--;
             List<Mesas> mesas = ListaDeMesas.getInstance();
-            List<Pedido> pedidos = mesas.get(codigo).getPedidos();
+            Mesas m = new Mesas();
+            for (Mesas mesa : mesas) {
+                if (mesa.getNumero()==codigo)
+                {
+                    m = mesa;
+                }
+            }
+            List<Pedido> pedidos = m.getPedidos();
             Integer tamanho = pedidos.size();
             tamanho--;
             if (pedidos.get(tamanho).getStatusAberto())
@@ -62,9 +68,15 @@ public class ControladorServlet extends HttpServlet {
             response.setContentType("text/html;charset=UTF-8");
             boolean haMesa = false;
             int codigoMesa = Integer.parseInt(request.getParameter("operacaoAdicionarPedido"));
-            codigoMesa--;
             List<Mesas> mesas = ListaDeMesas.getInstance();
-            List<Pedido> pedidos = mesas.get(codigoMesa).getPedidos();
+            Mesas m = new Mesas();
+            for (Mesas mesa : mesas) {
+                if (mesa.getNumero() == codigoMesa)
+                    {
+                        m = mesa;
+                    }
+            }
+            List<Pedido> pedidos = m.getPedidos();
             for (Pedido pedido : pedidos) {
                 if (pedido.getStatusAberto())
                 {
