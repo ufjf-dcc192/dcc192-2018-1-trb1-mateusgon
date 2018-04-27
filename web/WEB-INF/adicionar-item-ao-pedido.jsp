@@ -12,10 +12,8 @@
             </select>
             <p> Quantidade: </p>
             <input type="text" name="quantidade" id="quantidade"/>
-            <p> Mesa </p>
-            <input type="text" name="mesa" id="mesa" value="${numMesa}" />
-            <p> Pedido </p>
-            <input type="text" name="pedido" id="pedido" value="${numPedido}" />
+            <input type="hidden" name="mesa" id="mesa" value="${numMesa}" />
+            <input type="hidden" name="pedido" id="pedido" value="${numPedido}" />
             <p> <input type="hidden" name="operacaoAdicionarItem" value="incluir">
                 <input type="submit" value="Adicionar"> </p>
         </form>            
