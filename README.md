@@ -32,9 +32,17 @@ Não foi possível colocar a imagem aqui, por isso, o link. </p1>
 
 <h2> - Campos necessários para a construção das telas </h2>
 
+<p1> Para a construção de telas foi usado css, mas não houve um grande compromisso com a construção da tela. Foram usadas tabelas e listas para que as informações fossem mostradas para o usuário </p1>
+
 <h2> - Pontos importantes da interface </h2>
 
+<p1> A interface ainda pode ser muito melhorada, o foco em nenhum momento foi a interface. Contudo, a interface traz todas as informações necessárias para o gerenciamento das atividades do restaurante Petini. Ela mostra os pedidos, o valor dos pedidos, as mesas. O dono também pode fazer um controle sobre elas. </p1>
+
 <h2> - Maiores dificuldades de implementação </h2> 
+
+<p1> A maior dificuldade de implementação foi encontrada quando se tratou do doGet e doPost, entender como ambos se relacionam e enviam e recebem informações. Outra dificuldade encontrada que pode ser listada é o fato de fazer a interface. Não mexia com html e css há muito tempo. Tal fato acarretou em dificuldades </p1>
+
+<p1> Pode-se listar também a dificuldade em lidar com diversas janelas e com diversos .jsps, onde era necessário realizar um bom gerenciamento sobre eles. </p1>
 
 <h2> - Melhorias futuras </h2> 
 
