@@ -27,7 +27,7 @@
                                     <input type="hidden" value="${mesa.numero}" name="numMesa"/>
                                     </form>
                                     </td>
-                                    <td> <a href="alteraritemdopedido.html?codigo=${pedido.numero}&codigo2=${mesa.numero}"> Editar item do pedido </a> </td>
+                                    <td>  <a href="funcionamento-mesas.html"> Voltar </a> </td>
                                 </c:when>
                                 <c:when test="${!pedido.statusAberto}">
                                         <td> Pedido fechado </td>
